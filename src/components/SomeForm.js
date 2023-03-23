@@ -3,20 +3,20 @@ const SomeForm = (props) => {
     <form>
       <div className="control-group">
         <div className="form-control">
-          <label htmlFor="name">Введите Имя</label>
+          <label htmlFor="name">Enter the name</label>
           <input type="text" id="name" />
         </div>
         <div className="form-control">
-          <label htmlFor="name">Введите Фамилию</label>
+          <label htmlFor="name">Enter the Surname</label>
           <input type="text" id="name" />
         </div>
       </div>
       <div className="form-control">
-        <label htmlFor="name">Введите E-Mail</label>
+        <label htmlFor="name">Enter the email</label>
         <input type="text" id="name" />
       </div>
       <div className="form-actions">
-        <button>Отправить</button>
+        <button>Send</button>
       </div>
     </form>
   );
