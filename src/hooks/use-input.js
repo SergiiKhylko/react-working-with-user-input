@@ -32,6 +32,7 @@ const useInput = validateValueFunc => {
   return {
     value: enteredValue,
     hasError: isInputInvalid,
+    isValueValid,
     classes,
     inputChangeHandler,
     inputLostFocusHandler,
