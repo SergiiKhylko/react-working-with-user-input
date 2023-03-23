@@ -1,11 +1,12 @@
-import {useRef, useState} from "react";
+import {useState} from "react";
 
 const SomeInput = (props) => {
 
-  const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState("");
-  const [isEnteredNameValid, setIsEnteredNameValid] = useState(false);
-  const [isTouched, setIsTouched] = useState(false);
+  const [wasNameInputTouched, setWasNameInputTouched] = useState(false);
+
+  const isEnteredNameValid = enteredName.trim() !== "";
+  const isNameInputValid = !isEnteredNameValid && wasNameInputTouched;
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -14,47 +15,35 @@ const SomeInput = (props) => {
   const formSubmitHandler = (event) => {
     event.preventDefault();
 
-    if (enteredName.trim() === "") {
-      setIsEnteredNameValid(false);
-      setIsTouched(true);
+    if (!isEnteredNameValid) {
+      setWasNameInputTouched(true);
       return;
     }
 
-    setIsEnteredNameValid(true);
-
     console.log(enteredName);
     setEnteredName("");
-  }
-
-  const showWarning = isTouched && !isEnteredNameValid;
-  const nameInputClasses = showWarning ? "form-control invalid" : "form-control"
-
-  const validateInput = () => {
-    setIsEnteredNameValid(enteredName.trim() !== "");
-  }
+    setWasNameInputTouched(false);
+  };
 
   const nameInputLostFocusHandler = () => {
-    setIsTouched(true);
-    validateInput();
+    setWasNameInputTouched(true);
   }
 
-  const nameInputOnFocusHandler = () => {
-    setIsTouched(false)
-  }
+  const nameInputClasses = isNameInputValid
+    ? "form-control invalid"
+    : "form-control";
 
   return (
     <form onSubmit={formSubmitHandler}>
       <div className={nameInputClasses}>
         <label htmlFor="name">Enter the name</label>
         <input
-          ref={nameInputRef}
           type="text"
           id="name"
           onChange={nameInputChangeHandler}
           onBlur={nameInputLostFocusHandler}
-          onFocus={nameInputOnFocusHandler}
           value={enteredName}/>
-        {showWarning && <p className="error-text">Enter the name</p>}
+        {isNameInputValid && <p className="error-text">Enter the name</p>}
       </div>
       <div className="form-actions">
         <button>Send</button>
